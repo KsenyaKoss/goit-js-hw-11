@@ -46,7 +46,7 @@ function onLoadMore() {
     console.log(data);
     let shownPictures = page * perPage;
     console.log(shownPictures);
-    if (data.data.hits.length < perPage) {
+    if (data.data.hits.length < perPage && data.data.hits.length !== 0) {
       renderPictures(data);
       refs.btnLoadMore.style.display = 'none';
       Notiflix.Notify.info(
