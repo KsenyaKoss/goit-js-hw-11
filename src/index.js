@@ -17,7 +17,7 @@ refs.btnLoadMore.addEventListener('click', onLoadMore);
 function onSearch(ev) {
   ev.preventDefault();
   page = 1;
-  // refs.gallery.innerHTML = '';
+  refs.gallery.innerHTML = '';
   searchQuery = ev.currentTarget.elements.searchQuery.value;
   if (searchQuery === '') {
     Notiflix.Notify.failure(
