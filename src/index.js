@@ -63,6 +63,7 @@ function onLoadMore() {
       return;
     } else {
       renderPictures(data);
+      page += 1;
     }
   });
 }
