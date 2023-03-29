@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import fetchPictures from './api-service';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 let searchQuery = '';
 
 let page = 1;
@@ -32,10 +34,11 @@ function onSearch(ev) {
       } else if (data.data.totalHits < perPage) {
         renderPictures(data);
         Notiflix.Notify.info(
-          `We're sorry, but you've reached the end of search results.`
+          `That's all what we've found.`
         );
         return;
       } else {
+        Notiflix.Notify.success(`Hooray! We found ${data.data.totalHits} images.`)
         renderPictures(data);
         page += 1;
         refs.btnLoadMore.style.display = 'block';

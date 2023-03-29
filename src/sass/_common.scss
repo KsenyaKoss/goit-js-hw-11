@@ -7,12 +7,18 @@
   margin-bottom: 24px;
 }
 
-.button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+button[type='submit'] {
+  background-color: blueviolet;
+  color: #fafafa;
+  margin-left: 10px;
 }
 
+.button {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: blueviolet;
+  color: #fafafa;
+}
 
 .gallery__image {
   height: 50%;
@@ -33,20 +39,21 @@
   width: 200px;
   height: 300px;
 }
-p{
+
+
+p {
   margin-top: 4px;
   margin-bottom: 0;
   text-align: left;
   font-size: 13px;
 }
 
-
-
-
 .load-more {
   margin-left: auto;
   margin-right: auto;
   display: none;
+  background-color: blueviolet;
+  color: #fafafa;
 }
 
 * {
@@ -68,5 +75,3 @@ body {
 //   --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 //   --animation-duration: 250ms;
 // }
-
-
