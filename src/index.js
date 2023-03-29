@@ -17,8 +17,7 @@ refs.btnLoadMore.addEventListener('click', onLoadMore);
 function onSearch(ev) {
   ev.preventDefault();
   page = 1;
-  refs.gallery.innerHTML = '';
-  refs.btnLoadMore.style.display = 'none'
+  // refs.gallery.innerHTML = '';
   searchQuery = ev.currentTarget.elements.searchQuery.value;
   if (searchQuery === '') {
     Notiflix.Notify.failure(
@@ -27,26 +26,13 @@ function onSearch(ev) {
   } else {
     refs.btnLoadMore.style.display = 'block';
     fetchPictures(searchQuery, page, perPage).then(data => {
-      let pageQuantity = data.data.totalHits / perPage;
-      console.log(pageQuantity);
-      if (page > pageQuantity) {
-        refs.btnLoadMore.style.display = 'none';
-        Notiflix.Notify.info(
-          `We're sorry, but you've reached the end of search results.`
-        );
-        return;
-      } else  if(page === pageQuantity) {
-        refs.btnLoadMore.style.display = 'none'
         console.log(data);
         renderPictures(data);
         page += 1;
-        Notiflix.Notify.info(
-          `We're sorry, but you've reached the end of search results.`
-        )
-      }
-    });
+      })
+    };
   }
-}
+
 
 function onLoadMore(ev) {
   page += 1;
