@@ -10,13 +10,12 @@ const refs = {
   gallery: document.querySelector('.gallery'),
   btnLoadMore: document.querySelector('.load-more'),
 };
-refs.btnLoadMore.style.display = 'none'
+refs.btnLoadMore.style.display = 'none';
 refs.form.addEventListener('submit', onSearch);
 refs.btnLoadMore.addEventListener('click', onLoadMore);
 
 function onSearch(ev) {
   ev.preventDefault();
-  page = 1;
   refs.gallery.innerHTML = '';
   searchQuery = ev.currentTarget.elements.searchQuery.value;
   if (searchQuery === '') {
@@ -26,16 +25,23 @@ function onSearch(ev) {
   } else {
     refs.btnLoadMore.style.display = 'block';
     fetchPictures(searchQuery, page, perPage).then(data => {
-        console.log(data);
-        renderPictures(data);
-        page += 1;
-      })
-    };
+      console.log(data);
+      renderPictures(data);
+      let shownPictures = page * perPage;
+      console.log(shownPictures);
+      if (data.data.totalHits <= shownPictures) {
+        refs.btnLoadMore.style.display = 'none';
+        Notiflix.Notify.info(
+          `We're sorry, but you've reached the end of search results.`
+        );
+        return;
+      }
+      page += 1;
+    });
   }
+}
 
-
-function onLoadMore(ev) {
-  page += 1;
+function onLoadMore() {
   fetchPictures(searchQuery, page, perPage).then(data => renderPictures(data));
 }
 
@@ -68,6 +74,7 @@ function renderPictures(arr) {
           <p class="info-item">Number of downloads:
             <b>  ${downloads}</b>
           </p>
+        </div>
         </div>`
     )
     .join('');

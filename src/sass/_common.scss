@@ -15,22 +15,37 @@
 
 
 .gallery__image {
-  height: 100%;
+  height: 50%;
   width: 100%;
   object-fit: cover;
 }
 
 .gallery {
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   gap: 30px;
 }
 
 .photo-card {
-  flex-basis: 300px;
+  width: 200px;
   height: 300px;
 }
+p{
+  margin-top: 4px;
+  margin-bottom: 0;
+  text-align: left;
+  font-size: 13px;
+}
 
-.load-more .is-hidden {
+
+
+
+.load-more {
+  margin-left: auto;
+  margin-right: auto;
   display: none;
 }
 
