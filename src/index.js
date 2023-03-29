@@ -20,13 +20,16 @@ function onSearch(ev) {
   ev.preventDefault();
   refs.gallery.innerHTML = '';
   searchQuery = ev.currentTarget.elements.searchQuery.value;
+  console.log(searchQuery);
   if (searchQuery === '') {
-    Notiflix.Notify.failure(
+Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   } else {
     fetchPictures(searchQuery, page, perPage).then(data => {
+      page = 1;
       if (data.data.hits.length === 0) {
+        refs.btnLoadMore.style.display = 'none'
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -84,9 +87,8 @@ function renderPictures(arr) {
         downloads,
       }) => `
   <div class="photo-card">
-        <a href="${largeImageURL}" class="gallery__link" target="_blank"  rel="noopener noreferrer" >
+        <a href="${largeImageURL}" class="gallery__link" >
         <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" data-source="${largeImageURL}" width="300"/>
-         </a>
          <div class="info">
           <p class="info-item">Number of likes:
             <b>  ${likes}</b>
@@ -101,8 +103,24 @@ function renderPictures(arr) {
             <b>  ${downloads}</b>
           </p>
         </div>
+        </a>
         </div>`
     )
     .join('');
   refs.gallery.insertAdjacentHTML('beforeend', photoCard);
 }
+
+
+const options = {
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom'
+};
+
+let gallery = new SimpleLightbox('.gallery a');
+
+gallery.on('show.simplelightbox', function () {
+	
+});
+
+
