@@ -24,9 +24,12 @@ function onSearch(ev) {
     );
   } else {
     fetchPictures(searchQuery, page, perPage).then(data => {
-      console.log(data);
-      console.log(data.data.hits.length);
-      if (data.data.totalHits < perPage) {
+      if (data.data.hits.length === 0) {
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
+      } else if (data.data.totalHits < perPage) {
         renderPictures(data);
         Notiflix.Notify.info(
           `We're sorry, but you've reached the end of search results.`
@@ -43,9 +46,7 @@ function onSearch(ev) {
 
 function onLoadMore() {
   fetchPictures(searchQuery, page, perPage).then(data => {
-    console.log(data);
     let shownPictures = page * perPage;
-    console.log(shownPictures);
     if (data.data.hits.length < perPage && data.data.hits.length !== 0) {
       renderPictures(data);
       refs.btnLoadMore.style.display = 'none';

@@ -9,6 +9,6 @@ export default async function fetchPictures(searchQuery, page, perPage) {
     );
     return response;
   } catch (error) {
-    return error;
+    console.log(error.message);
   }
 }
