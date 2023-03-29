@@ -23,26 +23,47 @@ function onSearch(ev) {
       'Sorry, there are no images matching your search query. Please try again.'
     );
   } else {
-    refs.btnLoadMore.style.display = 'block';
     fetchPictures(searchQuery, page, perPage).then(data => {
       console.log(data);
-      renderPictures(data);
-      let shownPictures = page * perPage;
-      console.log(shownPictures);
-      if (data.data.totalHits <= shownPictures) {
-        refs.btnLoadMore.style.display = 'none';
+      console.log(data.data.hits.length);
+      if (data.data.totalHits < perPage) {
+        renderPictures(data);
         Notiflix.Notify.info(
           `We're sorry, but you've reached the end of search results.`
         );
         return;
+      } else {
+        renderPictures(data);
+        page += 1;
+        refs.btnLoadMore.style.display = 'block';
       }
-      page += 1;
     });
   }
 }
 
 function onLoadMore() {
-  fetchPictures(searchQuery, page, perPage).then(data => renderPictures(data));
+  fetchPictures(searchQuery, page, perPage).then(data => {
+    console.log(data);
+    let shownPictures = page * perPage;
+    console.log(shownPictures);
+    if (data.data.hits.length < perPage) {
+      renderPictures(data);
+      refs.btnLoadMore.style.display = 'none';
+      Notiflix.Notify.info(
+        `We're sorry, but you've reached the end of search results.`
+      );
+      return;
+    } else if (data.data.totalHits === shownPictures) {
+      renderPictures(data);
+      refs.btnLoadMore.style.display = 'none';
+      Notiflix.Notify.info(
+        `We're sorry, but you've reached the end of search results.`
+      );
+      return;
+    } else {
+      renderPictures(data);
+    }
+  });
 }
 
 function renderPictures(arr) {
