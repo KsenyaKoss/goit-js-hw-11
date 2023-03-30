@@ -1,7 +1,9 @@
 import Notiflix from 'notiflix';
 import fetchPictures from './api-service';
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+let galleryLightBox = new SimpleLightbox('.gallery a');
+
 let searchQuery = '';
 
 let page = 1;
@@ -22,27 +24,28 @@ function onSearch(ev) {
   searchQuery = ev.currentTarget.elements.searchQuery.value;
   console.log(searchQuery);
   if (searchQuery === '') {
-Notiflix.Notify.failure(
+    Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   } else {
     fetchPictures(searchQuery, page, perPage).then(data => {
       page = 1;
       if (data.data.hits.length === 0) {
-        refs.btnLoadMore.style.display = 'none'
+        refs.btnLoadMore.style.display = 'none';
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
         return;
       } else if (data.data.totalHits < perPage) {
         renderPictures(data);
-        Notiflix.Notify.info(
-          `That's all what we've found.`
-        );
+        Notiflix.Notify.info(`That's all what we've found.`);
         return;
       } else {
-        Notiflix.Notify.success(`Hooray! We found ${data.data.totalHits} images.`)
+        Notiflix.Notify.success(
+          `Hooray! We found ${data.data.totalHits} images.`
+        );
         renderPictures(data);
+        galleryLightBox.refresh();
         page += 1;
         refs.btnLoadMore.style.display = 'block';
       }
@@ -69,6 +72,7 @@ function onLoadMore() {
       return;
     } else {
       renderPictures(data);
+      galleryLightBox.refresh();
       page += 1;
     }
   });
@@ -88,7 +92,7 @@ function renderPictures(arr) {
       }) => `
   <div class="photo-card">
         <a href="${largeImageURL}" class="gallery__link" >
-        <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" data-source="${largeImageURL}" width="300"/>
+        <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" width="300"/>
          <div class="info">
           <p class="info-item">Number of likes:
             <b>  ${likes}</b>
@@ -109,18 +113,3 @@ function renderPictures(arr) {
     .join('');
   refs.gallery.insertAdjacentHTML('beforeend', photoCard);
 }
-
-
-const options = {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionPosition: 'bottom'
-};
-
-let gallery = new SimpleLightbox('.gallery a');
-
-gallery.on('show.simplelightbox', function () {
-	
-});
-
-
